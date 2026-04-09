@@ -86,7 +86,7 @@ Combines reflection and model card framing from the Module 3 guidance. :contentR
 
 ## 1. Model Name
 
-Give your recommender a name, for example: VibeReader
+Give your recommender a name, for example: TuneMatch
 
 ---
 
