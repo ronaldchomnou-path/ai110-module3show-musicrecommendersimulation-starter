@@ -1,34 +1,44 @@
-"""
-Command line runner for the Music Recommender Simulation.
-
-This file helps you quickly run and test your recommender.
-
-You will implement the functions in recommender.py:
-- load_songs
-- score_song
-- recommend_songs
-"""
-
 from recommender import load_songs, recommend_songs
 
+# ----------------------------
+# User Profiles
+# ----------------------------
+default_profile = {
+    "favorite_genre": "pop",
+    "favorite_mood": "happy",
+    "target_energy": 0.8,
+    "target_valence": 0.8,
+    "target_danceability": 0.7,
+    "target_acousticness": 0.2
+}
 
-def main() -> None:
-    songs = load_songs("data/songs.csv") 
+chill_lofi_profile = {
+    "favorite_genre": "lofi",
+    "favorite_mood": "chill",
+    "target_energy": 0.4,
+    "target_valence": 0.6,
+    "target_danceability": 0.6,
+    "target_acousticness": 0.7
+}
 
-    # Starter example profile
-    user_prefs = {"genre": "pop", "mood": "happy", "energy": 0.8}
+intense_rock_profile = {
+    "favorite_genre": "rock",
+    "favorite_mood": "intense",
+    "target_energy": 0.9,
+    "target_valence": 0.5,
+    "target_danceability": 0.2,
+    "target_acousticness": 0.1
+}
 
-    recommendations = recommend_songs(user_prefs, songs, k=5)
-
-    print("\nTop recommendations:\n")
-    for rec in recommendations:
-        # You decide the structure of each returned item.
-        # A common pattern is: (song, score, explanation)
-        song, score, explanation = rec
-        print(f"{song['title']} - Score: {score:.2f}")
-        print(f"Because: {explanation}")
-        print()
-
+def main():
+    songs = load_songs("data/songs.csv")
+    
+    for profile in [default_profile, chill_lofi_profile, intense_rock_profile]:
+        top_songs = recommend_songs(profile, songs, k=5)
+        print(f"\n--- Top recommendations for {profile['favorite_genre'].title()} / {profile['favorite_mood'].title()} ---")
+        for idx, song in enumerate(top_songs, start=1):
+            print(f"{idx}. {song['title']} by {song['artist']} - Score: {song['score']:.2f}")
+            print("   Reasons:", ", ".join(song["reasons"]))
 
 if __name__ == "__main__":
     main()
